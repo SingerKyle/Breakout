@@ -6,7 +6,9 @@ int main()
 {
 
     sf::RenderWindow window(sf::VideoMode(1000, 800), "Breakout");
-    GameManager gameManager(&window);
+    sf::View _view(sf::FloatRect(0, 0, 1000, 800));
+    _view.setCenter(500, 400);
+    GameManager gameManager(&window, &_view);
     gameManager.initialize();
 
     sf::Clock clock;
@@ -20,6 +22,8 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
+        window.setView(_view);
 
         deltaTime = clock.restart().asSeconds();
 

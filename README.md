@@ -21,8 +21,8 @@ fire ball (green)
 
 ## Suggested tasks
 
-* Implement mouse input for pad
-* Improved VFX (ball trail, paddle hit response, brick particle destruction)
+* Implement mouse input for pad X 
+* Improved VFX (ball trail, paddle hit response, brick particle destruction) 
 * Better UI (progress bar rather than timer for countdown).
 * GameLoop
 * Better ball physics (Box2D)
@@ -33,3 +33,20 @@ fire ball (green)
 
 # Time Details and Changelist
 <Add information to this section about the time you've taken for this task along with a professional changelist.>
+
+Fixed Compiler errors - 15 mins.
+
+Switched pointers in game manager to unique smart pointers - 5 mins
+
+Added random ball spawning (then limited to lower half of the screen) - 15 mins.
+
+Added Mouse Control to Paddle - 20 mins.
+
+added ball acceleration - 20 mins.
+
+Started Particle Class - 20 mins.
+
+Added Camera Shake - 25 mins.
+
+Added Particle System to ball movement - 1 hour.
+

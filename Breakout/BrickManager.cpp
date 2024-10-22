@@ -1,5 +1,9 @@
 #include "BrickManager.h"
 #include "GameManager.h"
+#include <thread>
+#include <vector>
+#include <future>
+#include <mutex>
 
 BrickManager::BrickManager(sf::RenderWindow* window, GameManager* gameManager)
     : _window(window), _gameManager(gameManager)
@@ -32,7 +36,19 @@ void BrickManager::render()
 
 int BrickManager::checkCollision(sf::CircleShape& ball, sf::Vector2f& direction)
 {
+    // comment
+    std::mutex brickMutex;
+
+    //https://www.geeksforgeeks.org/multithreading-in-cpp/ && https://www.geeksforgeeks.org/std-future-in-cpp/
+    std::vector<std::future<int>> futureCollisionValues;
+
+    // define thread count
+    int splitSize = _bricks.size() / numThreads;
+
+
     int collisionResponse = 0;  // set to 1 for horizontal collision and 2 for vertical.
+
+
     for (auto& brick : _bricks) {
         if (!brick.getBounds().intersects(ball.getGlobalBounds())) continue;    // no collision, skip.
 
@@ -52,10 +68,13 @@ int BrickManager::checkCollision(sf::CircleShape& ball, sf::Vector2f& direction)
         _bricks.pop_back();
         break;
     }
+
+
     if (_bricks.size() == 0)
     {
         _gameManager->levelComplete();
     }
+
     return collisionResponse;
 }
 

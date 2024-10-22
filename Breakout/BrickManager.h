@@ -2,6 +2,7 @@
 #include <vector>
 #include "Brick.h"
 #include <SFML/Graphics.hpp>
+#include "CONSTANTS.h"
 
 class GameManager;
 

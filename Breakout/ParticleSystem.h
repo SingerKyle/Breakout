@@ -3,22 +3,22 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include "Particle.h"
 
 class ParticleSystem
 {
 public:
-	ParticleSystem(sf::RenderWindow* window, const sf::Vector2f& pos, const sf::Vector2f& vel, const sf::Color& col, float life);
+	ParticleSystem(sf::RenderWindow* window);
 	~ParticleSystem();
 
-	void Update(float dt);
-	bool GetAlive();
+	void StartSpawning(sf::Vector2f position, sf::Vector2f velocity, float lifetime);
+
+	void Update(float dt, sf::Vector2f);
+
+	void Render();
 
 private:
-	sf::Vector2f _position;
-	sf::Vector2f _velocity;
-	sf::Color _colour;
-	float _lifespan;
-	float _timeAlive;
+	std::vector<Particle> _particles;
 	sf::RenderWindow* _window;
 
 protected:

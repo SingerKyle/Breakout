@@ -6,13 +6,14 @@
 #include "BrickManager.h"
 #include "PowerupManager.h"
 #include "MessagingSystem.h"
+#include "ParticleSystem.h"
 #include "UI.h"
 
 
 
 class GameManager {
 public:
-    GameManager(sf::RenderWindow* window);
+    GameManager(sf::RenderWindow* window, sf::View* view);
     void initialize();
     void update(float dt);
     void loseLife();
@@ -36,6 +37,12 @@ private:
     bool _levelComplete;
     bool _isUsingMouse;
     std::pair<POWERUPS, float> _powerupInEffect;
+    // screen shake
+    bool _shaking = false;
+    float _shakeIntensity;
+    float _shakeDuration;
+    float _shakeTimer;
+    float _decayTimescale; // Controls the decay of shake
 
     sf::Font _font;
     sf::Text _masterText;
@@ -45,9 +52,12 @@ private:
     std::unique_ptr<BrickManager> _brickManager;
     std::unique_ptr<MessagingSystem> _messagingSystem;
     std::unique_ptr<Ball> _ball;
+    std::unique_ptr<ParticleSystem> _particleSystem;
     std::unique_ptr<PowerupManager> _powerupManager;
     std::unique_ptr<UI> _ui;
+    sf::View* _view;
 
     static constexpr float PAUSE_TIME_BUFFER = 0.5f;
     static constexpr float POWERUP_FREQUENCY = 7.5f;    // time between minimum powerup spawn
+    static constexpr int POWERUP_SPAWN_CHANCE = 700;
 };

@@ -1,4 +1,5 @@
 #pragma once
+#include <thread>
 
 // implemented powerups
 enum POWERUPS
@@ -10,6 +11,13 @@ enum POWERUPS
     fireBall,
     none
 };
+
+// Collision Multithreading
+const size_t numThreads = std::thread::hardware_concurrency();
+
+// view for shake
+constexpr unsigned int VIEW_WIDTH = 500;
+constexpr unsigned int VIEW_HEIGHT = 400;
 
 // Window settings
 constexpr unsigned int WINDOW_WIDTH = 800;

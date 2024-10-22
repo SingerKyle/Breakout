@@ -1,11 +1,12 @@
 #include "Ball.h"
 #include <stdlib.h>
 #include "GameManager.h" // avoid cicular dependencies
+#include "ParticleSystem.h"
 #include <iomanip>
 #include <iostream>
 
-Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager)
-    : _window(window), _velocity(velocity), _gameManager(gameManager),
+Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager, ParticleSystem* particleSystem)
+    : _window(window), _velocity(velocity), _gameManager(gameManager), _particleSystem(particleSystem),
     _timeWithPowerupEffect(0.f), _isFireBall(false), _isAlive(true), _direction({1,1}), _currentVelocity(0)
 {
     srand(time(NULL));
@@ -15,6 +16,9 @@ Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager)
 
 
     _sprite.setPosition((rand() % WINDOW_WIDTH), (rand() % (WINDOW_HEIGHT / 2) + (WINDOW_HEIGHT / 2)));
+
+    _particleSpawnTimer = 0.f;
+
 }
 
 Ball::~Ball()
@@ -101,16 +105,30 @@ void Ball::update(float dt)
     if (_currentVelocity < _velocity)
     {
         // apply accelleration so ball speeds up over time
-        _currentVelocity += 400.f * dt;
+        _currentVelocity += 500.f * dt;
         _currentVelocity = std::clamp(_currentVelocity, 0.0f, _velocity);
     }
 
     _sprite.move(_direction * _currentVelocity * dt);
+
+    _particleSpawnTimer += dt;
+
+    // Particle system update to follow the player.
+    if (_particleSpawnTimer >= 0.1f)
+    {
+        _particleSystem->StartSpawning(_sprite.getPosition(), _direction * _currentVelocity * dt, 0.4f);
+        std::cout << "PARTICLES - " << _sprite.getPosition().x << ":" << _sprite.getPosition().y << std::endl;
+        _particleSpawnTimer = 0.f;
+    }
+
+    _particleSystem->Update(dt, _direction * _currentVelocity * dt);
+    
 }
 
 void Ball::render()
 {
     _window->draw(_sprite);
+    _particleSystem->Render();
 }
 
 void Ball::setVelocity(float coeff, float duration)
