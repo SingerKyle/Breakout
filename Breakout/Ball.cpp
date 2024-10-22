@@ -1,10 +1,12 @@
 #include "Ball.h"
 #include <stdlib.h>
 #include "GameManager.h" // avoid cicular dependencies
+#include <iomanip>
+#include <iostream>
 
 Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager)
     : _window(window), _velocity(velocity), _gameManager(gameManager),
-    _timeWithPowerupEffect(0.f), _isFireBall(false), _isAlive(true), _direction({1,1})
+    _timeWithPowerupEffect(0.f), _isFireBall(false), _isAlive(true), _direction({1,1}), _currentVelocity(0)
 {
     srand(time(NULL));
 
@@ -45,9 +47,6 @@ void Ball::update(float dt)
         _sprite.setFillColor(sf::Color(flicker, flicker / 2, 0)); // Orange flickering color
     }
 
-    // Update position with a subtle floating-point error
-    _sprite.move(_direction * _velocity * dt);
-
     // check bounds and bounce
     sf::Vector2f position = _sprite.getPosition();
     sf::Vector2u windowDimensions = _window->getSize();
@@ -68,6 +67,7 @@ void Ball::update(float dt)
     if (position.y > windowDimensions.y)
     {
         _sprite.setPosition((rand() % WINDOW_WIDTH), (rand() % (WINDOW_HEIGHT / 2) + (WINDOW_HEIGHT / 2)));
+        _currentVelocity = 0;
         _direction = { 1, 1 };
         _gameManager->loseLife();
     }
@@ -95,6 +95,17 @@ void Ball::update(float dt)
     {
         _direction.y *= -1; // Bounce vertically
     }
+
+
+    // slowly accelerate ball to speed
+    if (_currentVelocity < _velocity)
+    {
+        // apply accelleration so ball speeds up over time
+        _currentVelocity += 400.f * dt;
+        _currentVelocity = std::clamp(_currentVelocity, 0.0f, _velocity);
+    }
+
+    _sprite.move(_direction * _currentVelocity * dt);
 }
 
 void Ball::render()
