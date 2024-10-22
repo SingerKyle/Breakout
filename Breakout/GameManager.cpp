@@ -13,6 +13,7 @@ GameManager::GameManager(sf::RenderWindow* window)
     _masterText.setPosition(50, 400);
     _masterText.setCharacterSize(48);
     _masterText.setFillColor(sf::Color::Yellow);
+    _isUsingMouse = false;
 }
 
 void GameManager::initialize()
@@ -81,10 +82,21 @@ void GameManager::update(float dt)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) _paddle->moveRight(dt);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) _paddle->moveLeft(dt);
 
+    // If enabled, use mouse input
+    if (_isUsingMouse)
+    {
+        _paddle->moveWithMouse(dt);
+    }
+
     // update everything 
     _paddle->update(dt);
     _ball->update(dt);
     _powerupManager->update(dt);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+    {
+        _isUsingMouse = !_isUsingMouse;
+    }
 }
 
 void GameManager::loseLife()
