@@ -39,7 +39,7 @@ void Paddle::moveWithMouse(float dt)
     sf::Vector2i mousePosition = sf::Mouse::getPosition(*_window);
 
     // Check if the mouse X position is within valid bounds
-    if (mousePosition.x > _width / 2 && mousePosition.x < _window->getSize().x - _width / 2)
+    if (mousePosition.x > _width / _width && mousePosition.x < _window->getSize().x - _width)
     {
         // Set the paddle's X position based on the mouse, keeping the Y position unchanged
         _sprite.setPosition(static_cast<float>(mousePosition.x), _sprite.getPosition().y);
