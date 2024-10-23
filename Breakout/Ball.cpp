@@ -3,7 +3,6 @@
 #include "GameManager.h" // avoid cicular dependencies
 #include "ParticleSystem.h"
 #include <iomanip>
-#include <iostream>
 
 Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager, ParticleSystem* particleSystem)
     : _window(window), _velocity(velocity), _gameManager(gameManager), _particleSystem(particleSystem),
@@ -117,12 +116,17 @@ void Ball::update(float dt)
     if (_particleSpawnTimer >= 0.1f)
     {
         _particleSystem->StartSpawning(_sprite.getPosition(), _direction * _currentVelocity * dt, 0.4f);
-        std::cout << "PARTICLES - " << _sprite.getPosition().x << ":" << _sprite.getPosition().y << std::endl;
         _particleSpawnTimer = 0.f;
     }
 
     _particleSystem->Update(dt, _direction * _currentVelocity * dt);
     
+}
+
+void Ball::reset()
+{
+    _sprite.setPosition((rand() % WINDOW_WIDTH), (rand() % (WINDOW_HEIGHT / 2) + (WINDOW_HEIGHT / 2)));
+    _currentVelocity = 0;
 }
 
 void Ball::render()

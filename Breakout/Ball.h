@@ -11,6 +11,7 @@ public:
     Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager, ParticleSystem* particleSystem);
     ~Ball();
     void update(float dt);
+    void reset();
     void render();
     void setVelocity(float coeff, float duration);
     void setFireBall(float duration);

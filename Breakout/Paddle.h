@@ -13,6 +13,7 @@ public:
     void moveRight(float dt);
     void moveWithMouse(float dt);
     void update(float dt);
+    void reset();
     void render();
     sf::FloatRect getBounds() const;
     void setWidth(float coeff, float duration);

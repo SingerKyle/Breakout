@@ -1,5 +1,4 @@
 #include "ParticleSystem.h"
-#include <iostream>
 
 ParticleSystem::ParticleSystem(sf::RenderWindow* window) : _window(window)
 {
@@ -41,7 +40,6 @@ void ParticleSystem::Render()
 		for (int i = 0; i < _particles.size(); i++)
 		{
 			_window->draw(_particles[i].GetShape());
-			std::cout << i << std::endl;
 		}
 	}
 

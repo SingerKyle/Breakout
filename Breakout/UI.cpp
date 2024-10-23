@@ -72,6 +72,15 @@ void UI::lifeLost(int lives)
 	_lives[_lives.size() - 1 - lives].setFillColor(sf::Color::Transparent);
 }
 
+void UI::reset(int lives)
+{
+	for (int i = 0; i < _lives.size(); i++)
+	{
+		_lives[i].setFillColor(sf::Color::Red);
+	}
+	
+}
+
 void UI::render()
 {
 	_window->draw(_powerupText);

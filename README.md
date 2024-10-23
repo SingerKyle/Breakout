@@ -5,7 +5,9 @@ W Kavanagh. June Summer 2024
 ## controls
 
 A/D to move the paddle right and left.
+M for mouse controls
 P to pause.
+Space to reset on win or loss.
 
 ## Powerups
 
@@ -32,9 +34,8 @@ fire ball (green)
 * Implement commentary with calls to an LLM such as LLama
 
 # Time Details and Changelist
-<Add information to this section about the time you've taken for this task along with a professional changelist.>
 
-Fixed Compiler errors - 15 mins.
+Fixed Compiler errors: Circular dependency - 15 mins.
 
 Switched pointers in game manager to unique smart pointers - 5 mins
 
@@ -48,5 +49,11 @@ Started Particle Class - 20 mins.
 
 Added Camera Shake - 25 mins.
 
-Added Particle System to ball movement - 1 hour.
+Added Particle System to ball movement - 2 hours.
+
+Fixed issue with mouse paddle controls causing paddle to not reach left side - 10 mins
+
+Multithreading of brick collision checks - 2 hours
+
+game loop - reset on level lost or complete - 30 mins
 

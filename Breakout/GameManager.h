@@ -15,6 +15,7 @@ class GameManager {
 public:
     GameManager(sf::RenderWindow* window, sf::View* view);
     void initialize();
+    void Restart();
     void update(float dt);
     void loseLife();
     void render();

@@ -13,7 +13,7 @@ GameManager::GameManager(sf::RenderWindow* window, sf::View* view)
 {
     _font.loadFromFile("font/montS.ttf");
     _masterText.setFont(_font);
-    _masterText.setPosition(50, 400);
+    _masterText.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     _masterText.setCharacterSize(48);
     _masterText.setFillColor(sf::Color::Yellow);
     _isUsingMouse = false;
@@ -45,6 +45,23 @@ void GameManager::initialize()
     _brickManager->createBricks(5, 10, 80.0f, 30.0f, 5.0f);
 }
 
+void GameManager::Restart()
+{
+    _lives = 3;
+    _time = 0.f;
+    _levelComplete = false;
+    _powerupInEffect = { none, 0.f };
+    _timeLastPowerupSpawned = 0.f;
+
+    _masterText.setString("");
+
+    // Re-initialize game components
+    _brickManager->createBricks(5, 10, 80.0f, 30.0f, 5.0f);
+    _paddle->reset();
+    _ball->reset();
+    _ui->reset(3);
+}
+
 void GameManager::update(float dt)
 {
     _powerupInEffect = _powerupManager->getPowerupInEffect();
@@ -74,13 +91,23 @@ void GameManager::update(float dt)
     if (_lives <= 0)
     {
         _masterText.setString("Game over.");
-        return;
     }
     if (_levelComplete)
     {
         _masterText.setString("Level completed.");
+    }
+
+    // restart game on enter
+    if (_levelComplete && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || _lives <= 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        Restart();
+    }
+
+    if (_levelComplete || _lives <= 0)
+    {
         return;
     }
+
     // pause and pause handling
     if (_pauseHold > 0.f) _pauseHold -= dt;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
